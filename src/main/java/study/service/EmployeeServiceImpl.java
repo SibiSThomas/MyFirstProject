@@ -42,7 +42,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 
         Employee e = employeeRepository.findById(id).get();
         e.setEmployeeName(employeeName);
+        e.setEmployeeEmail(employeeEmail);
+        e.setEmployeePassword(employeePassword);
+        e.setDob(dob);
 
-        return null;
+        try {
+            String image = Base64.getEncoder().encodeToString(file.getBytes());
+            e.setEmployeeImage(image);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return employeeRepository.save(e);
     }
 }
